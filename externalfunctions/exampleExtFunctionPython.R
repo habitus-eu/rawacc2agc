@@ -2,7 +2,7 @@ exampleExtFunctionPython = function(data=c(), parameters=c()) {
   # data: 3 column matrix with acc data
   # parameters: the sample rate of data
   source_python(parameters)
-  sf=parameters
+  sf=30
   N = nrow(data)
   ws = 5 # windowsize
   data = data.frame(t= floor(seq(0,(N-1)/sf,by=1/sf)/ws),
