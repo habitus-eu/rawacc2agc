@@ -13,16 +13,17 @@ for (i in 1:length(ffnames))  source(paste(dirR,"/",ffnames[i],sep="")) #loading
 library("reticulate")
 use_virtualenv("~/venv_GGIR", required = TRUE) # Local Python environment
 
-source(paste0(getwd(),"/externalfunctions/exampleExtFunctionPython.R"))
+source("~/rawacc2agc/externalfunctions/dominant_frequency.R")
 myfun =  list(FUN=exampleExtFunctionPython,
-              parameters= paste(getwd(),"/externalfunctions/dominant_frequency.py"),
+              parameters= "~/rawacc2agc/externalfunctions/dominant_frequency.py",
               expected_sample_rate= 30,
               expected_unit="g",
               colnames = c("domfreqX", "domfreqY", "domfreqZ"),
               minlength = 5,
               outputres = 5,
               outputtype="numeric",
-              aggfunction = median)
+              aggfunction = median,
+              timestamp=T)
 datadir = "/media/vincent/data/Habitus/Ruben/acc_raw"
 outputdir = "/media/vincent/projects/Habitus" #config$outputdir
 studyname = "acc_raw" #config$studyname
@@ -31,6 +32,7 @@ g.shell.GGIR(mode=1:2,
              datadir=datadir,
              outputdir=outputdir,
              studyname=studyname,
+             desiredtz="Europe/Brussels",
              f0=1,
              f1=1,
              overwrite = TRUE, #overwrite previous milestone data?

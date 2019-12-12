@@ -1,12 +1,13 @@
 # Script to create imitated Actigraph file from counts in GGIR output
 # These are used by PALMS.
 #------------------------------------------------------------------------
-# rm(list=ls())
+rm(list=ls())
 library(data.table)
 
 # Specify GGIR output directory:
 outputdir = "/media/vincent/projects/Habitus/output_acc_raw"
 
+#------------------------------------------------------------------------
 # Add folder for simulated actigraph output:
 actigraphdir = paste0(outputdir,"/actigraph")
 if (dir.exists(actigraphdir) == FALSE) {
@@ -15,7 +16,7 @@ if (dir.exists(actigraphdir) == FALSE) {
 # Load GGIR part 1 milestone files
 rdafolder = paste0(outputdir,"/meta/basic")
 rdafiles = dir(rdafolder, full.names = T)
-desiredtz = "Europe/London"
+desiredtz = "Europe/Brussels"
 for (i in 1:length(rdafiles)) {
   load(rdafiles[i])
   
@@ -51,7 +52,7 @@ for (i in 1:length(rdafiles)) {
   }
   header = c("------------ Data File Created By ActiGraph wGT3XPlus ActiLife v6.10.2 Firmware v2.2.1 date format M/d/yyyy Filter Normal -----------",
              paste0("Serial Number: ",serialnumber),
-             "Start Time 09:00:00",
+             paste0("Start Time ", starttime),
              paste0("Start Date ",startdate),
              "Epoch Period (hh:mm:ss) 00:00:15",
              paste0("Download Time ",starttime),

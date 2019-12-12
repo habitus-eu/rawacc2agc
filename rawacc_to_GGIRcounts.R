@@ -11,9 +11,9 @@ for (i in 1:length(ffnames))  source(paste(dirR,"/",ffnames[i],sep="")) #loading
 # sourceCpp(paste0(pathR,"/src/resample.cpp"))
 
 
-source(paste0(getwd(),"/home/vincent/rawacc2agc/externalfunctions/exampleExtFunction.R"))
+source("/home/vincent/rawacc2agc/externalfunctions/calculateCounts.R")
 
-myfun =  list(FUN=exampleExtFunction,
+myfun =  list(FUN=calculateCounts,
               parameters = 30, # sample rate is a parameter for the external function
               expected_sample_rate= 30, # needed for resampling
               expected_unit="g",
@@ -21,7 +21,8 @@ myfun =  list(FUN=exampleExtFunction,
               minlength = 5,
               outputres = 1,
               outputtype="numeric", #"numeric" (averaging is possible), "category" (majority vote)
-              aggfunction = sum)
+              aggfunction = sum,
+              timestamp = TRUE)
 
 datadir = "/media/vincent/data/Habitus/Ruben/acc_raw"
 outputdir = "/media/vincent/projects/Habitus"
@@ -31,6 +32,7 @@ g.shell.GGIR(mode=1,
              datadir=datadir, #specify above
              outputdir=outputdir, #specify above
              studyname=studyname, #specify above
+             desiredtz="Europe/Brussels",
              f0=1, #specify above
              f1=1, #specify above
              overwrite = TRUE, #overwrite previous milestone data?
@@ -43,6 +45,7 @@ g.shell.GGIR(mode=1,
              epochvalues2csv = TRUE,
              windowsizes = c(5,900,3600), #Epoch length, non-wear detection resolution, non-wear detection evaluation window
              do.cal= TRUE, # Apply autocalibration? (recommended)
+             backup.cal.coef = "retrieve",
              chunksize=1, #size of data chunks to be read (value = 1 is maximum)
              printsummary=TRUE,
              visualreport=FALSE)
