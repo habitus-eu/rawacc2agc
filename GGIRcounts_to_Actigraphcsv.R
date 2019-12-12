@@ -63,17 +63,18 @@ for (i in 1:length(rdafiles)) {
   # Aggregate GGIR counts per 15 minutes
   colsofinterest = c("countx","county","countz")
   counts5sec = M$metashort[,colsofinterest]
-  counts5sec$timenum = floor(seq(0,nrow(counts5sec)-1,1)/((15*60)/ws3))
+  
+  counts5sec$timenum = floor(seq(0,nrow(counts5sec)-1,1)/((15)/ws3))
   # Assuming that count unit is counts/min, so we have sum the epochs per 15 minutes and then devide by 15
-  counts15min = round( as.matrix(aggregate(counts5sec, by=list(counts5sec$timenum),sum)[,colsofinterest]) / 15)
+  counts15sec = round( as.matrix(aggregate(counts5sec, by=list(counts5sec$timenum),sum)[,colsofinterest]))
   # Add dummy fourth column for which we do not have an estimate
-  counts15min = cbind(counts15min,ifelse(test = counts15min[,2] > 200,yes = 1,no = 0))
-  colnames(counts15min) = NULL
+  counts15sec = cbind(counts15sec,ifelse(test = counts15sec[,2] > 200,yes = 1,no = 0))
+  colnames(counts15sec) = NULL
   # Append GGIR output
-  counts15min = rbind(matrix("",length(header),ncol(counts15min)),counts15min)
-  counts15min[1:length(header),1] = header
+  counts15sec = rbind(matrix("",length(header),ncol(counts15sec)),counts15sec)
+  counts15sec[1:length(header),1] = header
   # Store to csv file
   fname = unlist(strsplit(rdafiles[i],"eta_|[.]RD"))
   fname = fname[length(fname)-1]
-  write.table(counts15min, file= paste0(actigraphdir,"/",fname),row.names = F, col.names = F,sep=",",fileEncoding="UTF-8")
+  write.table(counts15sec, file= paste0(actigraphdir,"/",fname),row.names = F, col.names = F,sep=",",fileEncoding="UTF-8")
 }

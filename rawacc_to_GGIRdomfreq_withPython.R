@@ -14,7 +14,7 @@ library("reticulate")
 use_virtualenv("~/venv_GGIR", required = TRUE) # Local Python environment
 
 source("~/rawacc2agc/externalfunctions/dominant_frequency.R")
-myfun =  list(FUN=exampleExtFunctionPython,
+myfun =  list(FUN=dominant_frequency,
               parameters= "~/rawacc2agc/externalfunctions/dominant_frequency.py",
               expected_sample_rate= 30,
               expected_unit="g",
