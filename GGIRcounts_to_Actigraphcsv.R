@@ -71,10 +71,11 @@ for (i in 1:length(rdafiles)) {
   counts15sec = cbind(counts15sec,ifelse(test = counts15sec[,2] > 200,yes = 1,no = 0))
   colnames(counts15sec) = NULL
   # Append GGIR output
-  counts15sec = rbind(matrix("",length(header),ncol(counts15sec)),counts15sec)
-  counts15sec[1:length(header),1] = header
+  # counts15sec = rbind(matrix("",length(header),ncol(counts15sec)),counts15sec)
+  # counts15sec[1:length(header),1] = header
   # Store to csv file
   fname = unlist(strsplit(rdafiles[i],"eta_|[.]RD"))
   fname = fname[length(fname)-1]
-  write.table(counts15sec, file= paste0(actigraphdir,"/",fname),row.names = F, col.names = F,sep=",",fileEncoding="UTF-8")
+  cat(paste(header,"\n",collapse=""), file= paste0(actigraphdir,"/",fname)) #,row.names = F, col.names = F,sep=",",fileEncoding="UTF-8"
+  write.table(counts15sec, file= paste0(actigraphdir,"/",fname),row.names = F, col.names = F,sep=",",fileEncoding="UTF-8", append=T)
 }
